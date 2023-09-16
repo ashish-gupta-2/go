@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/resource.proto";
+
+package test.v1beta2;
+option go_package = "ashish.com/v1";
+option java_package = "com.ashish.v1";
+option java_outer_classname = "EmployeeProto";
+option java_multiple_files = true;
+
+// EmployeeService provides all CRUD operations on the employee resource.
+service EmployeeService {
+    // CreateEmployee creates a new instance of the employee resource.
+    rpc CreateEmployee(CreateEmployeeRequest) returns (CreateEmployeeResponse){
+        option (google.api.http) = {
+            post: "/v1/employees"
+            body: "employee"
+        };
+        option (google.api.method_signature) = "employee_id,employee";
+    };
+
+    // GetEmployee returns the specified employee resource.
+    rpc GetEmployee(GetEmployeeRequest) returns (GetEmployeeResponse){
+        option (google.api.http) = {
+            get: "/v1beta2/{id=employees/*}"
+        };
+        option (google.api.method_signature) = "name";
+    };
+}
+
+// Employee represents employee data.
+message Employee {
+    // id of the employee resource.
+    string id = 1;
+
+    // name of the employee resource.
+    string name = 2;
+
+    // Age of the employee.
+    int32 age = 3;
+
+     // Age of the employee.
+    double salary = 4;
+}
+
+// CreateEmployeeRequest represents a request message for the create employee api.
+message CreateEmployeeRequest {
+    // Employee resource to be created.
+    Employee employee = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+// CreateEmployeeResponse represents a response message for the create employee api.
+message CreateEmployeeResponse{
+    // Employee resource that was newly created.
+    Employee employee = 1;
+}
+
+// GetEmployeeRequest represents a request message for the get employee api.
+message GetEmployeeRequest {
+    // Id of employee resource in uri path format.
+    string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+// GetEmployeeResponse represents a response message for the get employee api.
+message GetEmployeeResponse {
+    // Employee resource to be returned.
+    Employee employee = 1;
+}
